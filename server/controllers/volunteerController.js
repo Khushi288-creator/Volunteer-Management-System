@@ -1,4 +1,4 @@
-const Volunteer = require("../models/Volunteer");
+const Volunteer = require("../models/volunteer");
 
 const registerVolunteer = async (req, res) => {
   try {
