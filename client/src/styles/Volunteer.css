@@ -1,0 +1,797 @@
+/* =============================================================
+   Volunteer.css — Phase 1
+   Follows existing glass-card / btn / container design tokens
+   ============================================================= */
+
+/* ── Page shell ─────────────────────────────────────────────── */
+.v-page {
+  min-height: 100vh;
+  padding-bottom: 5rem;
+}
+
+.v-main {
+  padding-top: 5.5rem;
+  padding-bottom: 2.5rem;
+}
+
+/* ── Loading ────────────────────────────────────────────────── */
+.v-loading-screen {
+  min-height: 55vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: var(--text-muted);
+}
+
+.v-spinner {
+  width: 44px;
+  height: 44px;
+  border: 3px solid rgba(255, 255, 255, 0.08);
+  border-top-color: var(--primary-light);
+  border-radius: 50%;
+  animation: v-spin 0.7s linear infinite;
+}
+
+@keyframes v-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Inline button spinner */
+.v-btn-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: v-spin 0.6s linear infinite;
+  margin-right: 0.4rem;
+  vertical-align: middle;
+}
+
+/* ── Auth pages ─────────────────────────────────────────────── */
+.v-auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+}
+
+.v-auth-container {
+  width: 100%;
+  max-width: 560px;
+}
+
+.v-auth-container--wide {
+  max-width: 700px;
+}
+
+.v-auth-card {
+  padding: 2.75rem 2.5rem;
+}
+
+.v-auth-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.v-auth-brand {
+  display: inline-block;
+  margin-bottom: 0.9rem;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.v-auth-brand:hover {
+  opacity: 0.8;
+}
+
+.v-auth-header h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0 0 0.35rem;
+  color: var(--text-primary);
+}
+
+.v-auth-header p {
+  color: var(--text-muted);
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.v-auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.v-auth-submit-btn {
+  margin-top: 1.75rem;
+  width: 100%;
+  padding: 0.9rem;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.v-auth-footer-text {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.v-auth-link {
+  color: var(--primary-light);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.v-auth-link:hover {
+  color: var(--accent-light);
+  text-decoration: underline;
+}
+
+/* ── Notice banner (redirected from gated page) ─────────────── */
+.v-auth-notice {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #fbbf24;
+  padding: 0.85rem 1.1rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.v-auth-notice svg {
+  flex-shrink: 0;
+  font-size: 1rem;
+}
+
+/* ── Password eye button ─────────────────────────────────────── */
+.v-input-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.v-input-icon input {
+  width: 100%;
+  padding-right: 2.75rem;
+}
+
+.v-eye-btn {
+  position: absolute;
+  right: 0.85rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  padding: 0;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  transition: color 0.2s;
+  z-index: 1;
+}
+
+.v-eye-btn:hover {
+  color: var(--primary-light);
+}
+
+/* ── Form field validation ───────────────────────────────────── */
+.form-group--error input,
+.form-group--error select,
+.form-group--error textarea {
+  border-color: rgba(248, 113, 113, 0.6) !important;
+  background: rgba(248, 113, 113, 0.04) !important;
+}
+
+.form-group--error input:focus,
+.form-group--error select:focus,
+.form-group--error textarea:focus {
+  box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.15) !important;
+}
+
+.v-field-error {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.8rem;
+  color: #f87171;
+  font-weight: 500;
+}
+
+.v-field-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  margin-left: 0.5rem;
+}
+
+.v-field-counter {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+/* ── Navbar (volunteer-side) ─────────────────────────────────── */
+.v-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 64px;
+  background: rgba(6, 13, 26, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.v-navbar-inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.v-navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: 1.15rem;
+  text-decoration: none;
+  color: var(--text-primary);
+  white-space: nowrap;
+  transition: opacity 0.2s;
+}
+
+.v-navbar-brand:hover { opacity: 0.85; }
+
+.v-navbar-links {
+  list-style: none;
+  display: flex;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+}
+
+.v-navbar-links a {
+  padding: 0.45rem 0.9rem;
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  transition: color 0.2s, background 0.2s;
+}
+
+.v-navbar-links a:hover { color: var(--text-primary); background: var(--glass-hover); }
+
+.v-nav-active {
+  color: var(--primary-light) !important;
+  background: rgba(13, 148, 136, 0.1) !important;
+}
+
+.v-navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: auto;
+}
+
+.v-navbar-user {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.v-logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.875rem;
+  padding: 0.45rem 1rem;
+}
+
+.v-mobile-menu {
+  display: none;
+  flex-direction: column;
+  gap: 0.25rem;
+  position: fixed;
+  top: 64px;
+  left: 0;
+  right: 0;
+  background: rgba(6, 13, 26, 0.97);
+  backdrop-filter: blur(20px);
+  padding: 1.25rem 1.5rem;
+  z-index: 999;
+  border-bottom: 1px solid var(--glass-border);
+  animation: fadeIn 0.25s ease;
+}
+
+.v-mobile-menu.open { display: flex; }
+
+.v-mobile-menu a {
+  padding: 0.75rem 0.75rem;
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  border-radius: var(--radius-sm);
+  transition: background 0.2s, color 0.2s;
+}
+
+.v-mobile-menu a:hover {
+  background: var(--glass-hover);
+  color: var(--text-primary);
+}
+
+/* ── Welcome card ────────────────────────────────────────────── */
+.v-welcome-card {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.75rem 2rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.v-welcome-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.v-welcome-avatar {
+  font-size: 3.25rem;
+  color: var(--primary-light);
+  flex-shrink: 0;
+}
+
+.v-welcome-title {
+  font-size: 1.55rem;
+  font-weight: 700;
+  margin: 0 0 0.25rem;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.v-welcome-title span { color: var(--primary-light); }
+
+.v-welcome-sub {
+  color: var(--text-muted);
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+/* ── Status badge ────────────────────────────────────────────── */
+.v-status-badge {
+  padding: 0.3rem 1rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+
+.v-status-badge--active {
+  background: rgba(13, 148, 136, 0.15);
+  color: var(--primary-light);
+  border: 1px solid rgba(13, 148, 136, 0.3);
+}
+
+.v-status-badge--suspended {
+  background: rgba(220, 38, 38, 0.12);
+  color: #f87171;
+  border: 1px solid rgba(220, 38, 38, 0.3);
+}
+
+/* ── Stats grid ──────────────────────────────────────────────── */
+.v-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.v-stat-card {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  padding: 1.35rem 1.6rem;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.v-stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-glow);
+}
+
+.v-stat-icon {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+  padding: 0.65rem;
+  border-radius: 10px;
+  transition: transform 0.25s ease;
+}
+
+.v-stat-card:hover .v-stat-icon { transform: scale(1.1); }
+
+.v-stat-icon--teal   { color: var(--primary-light); background: rgba(13,148,136,0.12); }
+.v-stat-icon--gold   { color: #f6ad55;              background: rgba(246,173,85,0.12); }
+.v-stat-icon--blue   { color: #63b3ed;              background: rgba(99,179,237,0.12); }
+.v-stat-icon--purple { color: #b794f4;              background: rgba(183,148,244,0.12); }
+
+.v-stat-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.v-stat-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.v-stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--text-primary);
+}
+
+.v-stat-hint {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+/* ── Quick links card ────────────────────────────────────────── */
+.v-quick-links-card {
+  padding: 1.75rem 2rem;
+}
+
+.v-section-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 0 0 1.25rem;
+  color: var(--text-primary);
+}
+
+.v-quick-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.v-quick-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius-sm);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+}
+
+.v-quick-link:hover {
+  background: rgba(13, 148, 136, 0.1);
+  border-color: rgba(13, 148, 136, 0.35);
+  color: var(--primary-light);
+  transform: translateY(-1px);
+}
+
+.v-coming-soon {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin: 0;
+  padding-top: 0.25rem;
+  border-top: 1px solid var(--glass-border);
+}
+
+/* ── Profile page ────────────────────────────────────────────── */
+.v-profile-header-card {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.75rem 2rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.v-profile-avatar {
+  font-size: 4.5rem;
+  color: var(--primary-light);
+  flex-shrink: 0;
+}
+
+.v-profile-meta-card {
+  margin-bottom: 1.5rem;
+  padding: 0.5rem 2rem;
+}
+
+.v-profile-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--glass-border);
+  gap: 1rem;
+}
+
+.v-profile-meta-row:last-child { border-bottom: none; }
+
+.v-profile-meta-label {
+  font-size: 0.83rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.v-profile-meta-value {
+  font-size: 0.925rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-align: right;
+}
+
+.v-profile-form-card { padding: 2rem 2.5rem; }
+
+.v-textarea {
+  width: 100%;
+  resize: vertical;
+  padding: 0.8rem 1rem;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-family: inherit;
+  line-height: 1.6;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.v-textarea:focus {
+  outline: none;
+  border-color: rgba(13, 148, 136, 0.5);
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.12);
+}
+
+.v-char-count {
+  display: block;
+  text-align: right;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 0.3rem;
+}
+
+.v-optional {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  margin-left: 0.35rem;
+}
+
+.v-save-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.75rem;
+  padding: 0.85rem 2.25rem;
+}
+
+/* ── Alerts ──────────────────────────────────────────────────── */
+.admin-alert-success {
+  background: rgba(13, 148, 136, 0.1);
+  border: 1px solid rgba(13, 148, 136, 0.3);
+  color: var(--primary-light);
+  padding: 0.8rem 1.1rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* ── Registration auth gate ──────────────────────────────────── */
+.register-auth-gate {
+  max-width: 520px;
+  margin-inline: auto;
+  padding: 3.5rem 2.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.register-gate-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  color: #fbbf24;
+  margin-bottom: 0.25rem;
+  transition: transform 0.3s ease;
+}
+
+.register-auth-gate:hover .register-gate-icon {
+  transform: scale(1.05);
+}
+
+.register-auth-gate h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.register-gate-msg {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.65;
+  max-width: 380px;
+}
+
+.register-gate-actions {
+  display: flex;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 0.75rem;
+}
+
+.register-gate-actions .btn {
+  min-width: 140px;
+}
+
+/* ── Registration form improvements ─────────────────────────── */
+.register-form-wrapper {
+  max-width: 680px;
+  margin-inline: auto;
+  padding: 2.5rem;
+}
+
+.register-form-header {
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.register-form-header h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 0.3rem;
+  color: var(--text-primary);
+}
+
+.register-form-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.register-form-subtitle strong {
+  color: var(--primary-light);
+}
+
+.register-submit-btn {
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.9rem;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  letter-spacing: 0.01em;
+}
+
+/* ── Success card ────────────────────────────────────────────── */
+.register-success-card {
+  max-width: 520px;
+  margin-inline: auto;
+  padding: 3.5rem 2.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.register-success-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(13, 148, 136, 0.12);
+  border: 1px solid rgba(13, 148, 136, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: var(--primary-light);
+  animation: v-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes v-pop {
+  from { transform: scale(0.5); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+.register-success-card h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.register-success-msg {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.65;
+  max-width: 380px;
+}
+
+.register-success-btn {
+  margin-top: 0.5rem;
+}
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .v-navbar-links,
+  .v-navbar-right { display: none; }
+
+  .v-welcome-card  { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .v-stats-grid    { grid-template-columns: 1fr 1fr; }
+  .v-auth-card     { padding: 2rem 1.5rem; }
+  .v-profile-form-card { padding: 1.5rem; }
+  .register-form-wrapper { padding: 1.75rem 1.25rem; }
+  .register-auth-gate { padding: 2.5rem 1.5rem; }
+  .register-success-card { padding: 2.5rem 1.5rem; }
+}
+
+@media (max-width: 480px) {
+  .v-stats-grid { grid-template-columns: 1fr; }
+  .register-gate-actions { flex-direction: column; width: 100%; }
+  .register-gate-actions .btn { width: 100%; }
+}

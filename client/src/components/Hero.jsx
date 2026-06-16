@@ -25,6 +25,7 @@ function Hero() {
           </p>
 
           <div className="hero-actions animate-fade-up animate-fade-up-delay-3">
+            {/* Always scrolls to #register — the section handles auth gate */}
             <a href="#register" className="btn btn-primary">
               Register Now
             </a>

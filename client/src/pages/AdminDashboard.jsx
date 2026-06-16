@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaSignOutAlt, FaSync } from "react-icons/fa";
 import { useAuth } from "../context/AuthContext";
@@ -16,48 +16,97 @@ function AdminDashboard() {
   const [volunteers, setVolunteers] = useState([]);
   const [search, setSearch] = useState("");
   const [selectedVolunteer, setSelectedVolunteer] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);       // initial page load
+  const [searching, setSearching] = useState(false);  // search-only loading
   const [refreshing, setRefreshing] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
   const [error, setError] = useState("");
+  const [searchError, setSearchError] = useState("");
 
-  const fetchData = useCallback(async (searchTerm = "") => {
-    try {
-      setError("");
-      const [statsRes, volunteersRes] = await Promise.all([
-        api.get("/api/admin/stats"),
-        api.get("/api/admin/volunteers", {
-          params: searchTerm ? { search: searchTerm } : {},
-        }),
-      ]);
-
-      setStats(statsRes.data.stats);
-      setVolunteers(volunteersRes.data.volunteers);
-    } catch (err) {
-      setError(err.response?.data?.message || "Failed to load dashboard data");
-    }
+  // ── Fetch stats only (used on initial load + refresh) ────────────────────
+  const fetchStats = useCallback(async () => {
+    const res = await api.get("/api/admin/stats");
+    return res.data.stats;
   }, []);
 
+  // ── Fetch volunteers with optional search term ────────────────────────────
+  const fetchVolunteers = useCallback(async (searchTerm = "") => {
+    const res = await api.get("/api/admin/volunteers", {
+      params: searchTerm.trim() ? { search: searchTerm.trim() } : {},
+    });
+    return res.data.volunteers;
+  }, []);
+
+  // ── Initial load: fetch both stats and all volunteers ─────────────────────
   useEffect(() => {
-    const load = async () => {
+    const init = async () => {
       setLoading(true);
-      await fetchData();
-      setLoading(false);
+      setError("");
+      try {
+        const [statsData, volunteersData] = await Promise.all([
+          fetchStats(),
+          fetchVolunteers(),
+        ]);
+        setStats(statsData);
+        setVolunteers(volunteersData);
+      } catch (err) {
+        setError(err.response?.data?.message || "Failed to load dashboard data");
+      } finally {
+        setLoading(false);
+      }
     };
-    load();
-  }, [fetchData]);
+    init();
+  }, [fetchStats, fetchVolunteers]);
+
+  // ── Search: only re-fetch volunteers, never stats ─────────────────────────
+  // Uses a ref to always hold the latest search value inside the timeout callback,
+  // preventing stale-closure issues.
+  const searchRef = useRef(search);
+  useEffect(() => {
+    searchRef.current = search;
+  }, [search]);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (!loading) fetchData(search);
-    }, 350);
-    return () => clearTimeout(timer);
-  }, [search, loading, fetchData]);
+    // Skip the initial mount (loading=true covers initial fetch above)
+    if (loading) return;
 
+    const timer = setTimeout(async () => {
+      const term = searchRef.current;
+      setSearching(true);
+      setSearchError("");
+      try {
+        const data = await fetchVolunteers(term);
+        setVolunteers(data);
+      } catch (err) {
+        setSearchError(
+          err.response?.data?.message || "Search failed. Please try again."
+        );
+      } finally {
+        setSearching(false);
+      }
+    }, 350);
+
+    return () => clearTimeout(timer);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search]); // Only 'search' — changing fetchVolunteers must NOT re-trigger this
+
+  // ── Manual refresh: re-fetch both stats and current search results ─────────
   const handleRefresh = async () => {
     setRefreshing(true);
-    await fetchData(search);
-    setRefreshing(false);
+    setError("");
+    setSearchError("");
+    try {
+      const [statsData, volunteersData] = await Promise.all([
+        fetchStats(),
+        fetchVolunteers(search),
+      ]);
+      setStats(statsData);
+      setVolunteers(volunteersData);
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to refresh data");
+    } finally {
+      setRefreshing(false);
+    }
   };
 
   const handleLogout = () => {
@@ -74,7 +123,13 @@ function AdminDashboard() {
     setDeletingId(volunteer._id);
     try {
       await api.delete(`/api/admin/volunteers/${volunteer._id}`);
-      await fetchData(search);
+      // Re-fetch volunteers (keep current search) and update stats count
+      const [statsData, volunteersData] = await Promise.all([
+        fetchStats(),
+        fetchVolunteers(search),
+      ]);
+      setStats(statsData);
+      setVolunteers(volunteersData);
       if (selectedVolunteer?._id === volunteer._id) {
         setSelectedVolunteer(null);
       }
@@ -192,7 +247,12 @@ function AdminDashboard() {
             value={search}
             onChange={setSearch}
             onClear={() => setSearch("")}
+            searching={searching}
           />
+
+          {searchError && (
+            <div className="admin-alert admin-alert-error">{searchError}</div>
+          )}
 
           <VolunteerTable
             volunteers={volunteers}

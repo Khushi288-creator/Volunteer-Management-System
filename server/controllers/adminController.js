@@ -1,13 +1,20 @@
 const Volunteer = require("../models/volunteer");
 
+/**
+ * Escape all regex metacharacters in a user-supplied search string
+ * so that new RegExp(escaped, "i") never throws.
+ */
+const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+// ── GET /api/admin/volunteers?search=term ──────────────────────────────────
 const getVolunteers = async (req, res) => {
   try {
     const { search } = req.query;
     let query = {};
 
     if (search && search.trim()) {
-      const term = search.trim();
-      const regex = new RegExp(term, "i");
+      const escaped = escapeRegex(search.trim());
+      const regex = new RegExp(escaped, "i");
       query = {
         $or: [
           { fullName: regex },
@@ -36,6 +43,7 @@ const getVolunteers = async (req, res) => {
   }
 };
 
+// ── GET /api/admin/stats ───────────────────────────────────────────────────
 const getStats = async (req, res) => {
   try {
     const totalVolunteers = await Volunteer.countDocuments();
@@ -76,6 +84,7 @@ const getStats = async (req, res) => {
   }
 };
 
+// ── DELETE /api/admin/volunteers/:id ──────────────────────────────────────
 const deleteVolunteer = async (req, res) => {
   try {
     const volunteer = await Volunteer.findByIdAndDelete(req.params.id);

@@ -350,9 +350,34 @@
   background: none;
   border: none;
   color: var(--primary-light);
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   cursor: pointer;
   padding: 0.25rem 0.5rem;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s ease;
+}
+
+.admin-search-clear:hover {
+  color: var(--text-primary);
+}
+
+/* Searching state — border pulses to indicate in-flight request */
+.admin-search--searching input {
+  border-color: rgba(13, 148, 136, 0.45);
+}
+
+/* Inline spinner inside search box (replaces the magnifier icon) */
+.admin-search-spinner {
+  position: absolute;
+  left: 0.95rem;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-top-color: var(--primary-light);
+  border-radius: 50%;
+  animation: spin 0.65s linear infinite;
+  pointer-events: none;
 }
 
 /* ── Table ── */
