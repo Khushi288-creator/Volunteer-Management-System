@@ -5,6 +5,7 @@ const connectDB = require("./config/db");
 
 const volunteerRoutes = require("./routes/volunteerRoutes");
 const authRoutes = require("./routes/authRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ app.use(express.json());
 // Routes
 app.use("/api/volunteers", volunteerRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.get("/", (req, res) => {
   res.send("Volunteer Management API Running 🚀");

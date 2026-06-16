@@ -69,6 +69,7 @@ function Footer() {
         <div className="footer-bottom">
           <span>&copy; {new Date().getFullYear()} VolunteerHub. All rights reserved.</span>
           <div className="footer-bottom-links">
+            <a href="/admin/login">Admin</a>
             <a href="#">Privacy Policy</a>
             <a href="#">Terms of Service</a>
           </div>
