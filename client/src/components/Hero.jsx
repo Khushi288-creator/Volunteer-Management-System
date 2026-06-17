@@ -1,6 +1,31 @@
+import { useState, useEffect } from "react";
 import { FaHandsHelping } from "react-icons/fa";
+import api from "../utils/api";
 
 function Hero() {
+  const [totalVolunteers, setTotalVolunteers] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    api
+      .get("/api/public/stats")
+      .then((res) => {
+        if (!cancelled) setTotalVolunteers(res.data.stats.totalVolunteers);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // Format volunteer count for display (e.g. 47 → "47+" | 1500 → "1,500+")
+  const volunteerDisplay =
+    totalVolunteers === null
+      ? "…"
+      : totalVolunteers >= 1000
+      ? `${Math.floor(totalVolunteers / 1000)}K+`
+      : `${totalVolunteers}+`;
+
   return (
     <section className="hero" id="home">
       <div className="hero-glow" />
@@ -36,7 +61,7 @@ function Hero() {
 
           <div className="hero-stats-row animate-fade-up animate-fade-up-delay-4">
             <div className="hero-stat">
-              <span className="hero-stat-value">2,500+</span>
+              <span className="hero-stat-value">{volunteerDisplay}</span>
               <span className="hero-stat-label">Active Volunteers</span>
             </div>
             <div className="hero-stat">

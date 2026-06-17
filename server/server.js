@@ -7,6 +7,7 @@ const volunteerRoutes = require("./routes/volunteerRoutes");
 const authRoutes = require("./routes/authRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const volunteerAuthRoutes = require("./routes/volunteerAuthRoutes");
+const publicRoutes = require("./routes/publicRoutes");
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.use("/api/volunteers", volunteerRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/auth/volunteer", volunteerAuthRoutes);
+app.use("/api/public", publicRoutes);
 
 app.get("/", (req, res) => {
   res.send("Volunteer Management API Running 🚀");

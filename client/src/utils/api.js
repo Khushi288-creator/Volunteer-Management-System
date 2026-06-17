@@ -7,12 +7,19 @@ const api = axios.create({
 });
 
 // ── Request interceptor ────────────────────────────────────────────────────
-// Attach the right token depending on which part of the API is being called.
-// Admin routes (/api/admin, /api/auth/login) → adminToken
-// Volunteer routes (/api/volunteers, /api/auth/volunteer) → volunteerToken
-// Both tokens exist independently and never interfere.
+// Token routing rules:
+//   /api/public/*            → no token (public endpoints)
+//   /api/auth/volunteer/*    → volunteerToken
+//   /api/volunteers/profile  → volunteerToken
+//   /api/volunteers/dashboard→ volunteerToken
+//   everything else          → adminToken (admin dashboard calls)
 api.interceptors.request.use((config) => {
   const url = config.url || "";
+
+  // Public routes — send no Authorization header
+  if (url.startsWith("/api/public")) {
+    return config;
+  }
 
   const isVolunteerRoute =
     url.startsWith("/api/auth/volunteer") ||
