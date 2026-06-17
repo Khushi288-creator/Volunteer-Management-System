@@ -5,14 +5,12 @@ import Home from "./pages/Home";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
-
 // ── Volunteer (Phase 1) ────────────────────────────────────────────────────
 import VSignup from "./pages/volunteer/VSignup";
 import VLogin from "./pages/volunteer/VLogin";
 import VDashboard from "./pages/volunteer/VDashboard";
 import VProfile from "./pages/volunteer/VProfile";
 import VProtectedRoute from "./components/volunteer/VProtectedRoute";
-
 function App() {
   return (
     <Routes>
