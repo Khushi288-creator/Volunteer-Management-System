@@ -82,8 +82,6 @@ The application is built with security and scalability in mind — JWT-based aut
 ### 🛡 Admin Dashboard
 ![Admin Dashboard](screenshots/admin-dashboard.png)
 
-### 🔍 Volunteer Search / Management
-![Volunteer Search](screenshots/volunteer-search.png)
 
 > Place the corresponding image files inside a `screenshots/` folder at the project root.
 
